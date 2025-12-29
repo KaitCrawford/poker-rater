@@ -2,17 +2,16 @@ input = "KH,2H,KS,2S,6D"
 
 hand = input.split(",")
 
+card_ranking = "234567890JQKA"  # Note that 10 is represented by '0'
+
 
 def extract_hand_values(hand: list):
-    value_dict = {}
-    for card in hand:
-        if card[0] in value_dict:
-            value_dict[card[0]] +=1
-        else:
-            value_dict[card[0]] = 1
+    values = [c[0] for c in hand]
+    suits = [c[1] for c in hand]
+    # This uses the card ranking as the key so we can use it for easy ordering
+    value_counts = {card_ranking.find(v): values.count(v) for v in values}
 
-
-    return value_dict
+    return value_counts
 
 def has_four_of_a_kind(values_dict: dict) -> bool:
     if 4 in values_dict.values():
