@@ -1,5 +1,5 @@
 # input = "KH,2H,KS,2S,6D"
-input = "KH,QH,9H,0H,JH"
+input = "KH,QH,AH,0H,JH"
 
 hand = input.split(",")
 
@@ -60,8 +60,17 @@ def has_flush(suits) -> bool:
 def has_straight_flush(hand_info) -> bool:
     return has_flush(hand_info["suits"]) and has_straight(hand_info["values"])
 
+def has_royal_flush(hand_info) -> bool:
+    return (
+        has_flush(hand_info["suits"]) and
+        has_straight(hand_info["values"]) and
+        hand_info["values"][-1] == "A"
+    )
+
+
 hand_info = extract_hand_info(hand)
 print(hand_info)
+print(has_royal_flush(hand_info))
 print(has_straight_flush(hand_info))
 print(has_flush(hand_info["suits"]))
 print(has_straight(hand_info["values"]))
