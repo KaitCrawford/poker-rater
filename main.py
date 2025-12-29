@@ -59,3 +59,9 @@ print (has_full_house(hand_values))
 print (has_three_of_a_kind(hand_values))
 print (has_two_pair(hand_values))
 print (has_pair(hand_values))
+
+
+"""
+Assumptions/Notes:
+- Only assessing ranking for High games, not low games or high-low split games
+"""
