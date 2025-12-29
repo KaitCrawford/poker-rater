@@ -6,13 +6,20 @@ hand = input.split(",")
 card_ranking = "234567890JQKA"  # Note that 10 is represented by '0'
 
 
-def extract_hand_values(hand: list):
+def extract_hand_info(hand: list) -> dict:
+    """
+    This function will probably be refactored as multiple attr functions on the Hand class
+    """
+    ranks = [card_ranking.find(c[0]) for c in hand]
+    ranks.sort()
+    sorted_vals = [card_ranking[i] for i in ranks]
+
     values = [c[0] for c in hand]
     suits = [c[1] for c in hand]
     # This uses the card ranking as the key so we can use it for easy ordering
     value_counts = {card_ranking.find(v): values.count(v) for v in values}
 
-    return value_counts
+    return {"values": sorted_vals, "suits": suits, "val_counts": value_counts}
 
 def has_four_of_a_kind(values_dict: dict) -> bool:
     if 4 in values_dict.values():
@@ -44,30 +51,25 @@ def has_two_pair(values_dict: dict) -> bool:
     else:
         return False
 
-def has_straight(hand) -> bool:
-    ranks = [card_ranking.find(c[0]) for c in hand]
-    ranks.sort()
-    sorted_vals = [card_ranking[i] for i in ranks]
+def has_straight(sorted_vals) -> bool:
     return "".join(sorted_vals) in card_ranking
 
-def has_flush(hand) -> bool:
-    suits = [c[1] for c in hand]
+def has_flush(suits) -> bool:
     return suits.count(suits[0]) == 5
 
-def has_straight_flush(hand) -> bool:
-    return has_flush(hand) and has_straight(hand)
+def has_straight_flush(hand_info) -> bool:
+    return has_flush(hand_info["suits"]) and has_straight(hand_info["values"])
 
-
-hand_values = extract_hand_values(hand)
-print(hand_values)
-print(has_straight_flush(hand))
-print(has_flush(hand))
-print(has_straight(hand))
-print (has_four_of_a_kind(hand_values))
-print (has_full_house(hand_values))
-print (has_three_of_a_kind(hand_values))
-print (has_two_pair(hand_values))
-print (has_pair(hand_values))
+hand_info = extract_hand_info(hand)
+print(hand_info)
+print(has_straight_flush(hand_info))
+print(has_flush(hand_info["suits"]))
+print(has_straight(hand_info["values"]))
+print(has_four_of_a_kind(hand_info["val_counts"]))
+print(has_full_house(hand_info["val_counts"]))
+print(has_three_of_a_kind(hand_info["val_counts"]))
+print(has_two_pair(hand_info["val_counts"]))
+print(has_pair(hand_info["val_counts"]))
 
 
 """
