@@ -1,4 +1,5 @@
-input = "KH,2H,KS,2S,6D"
+# input = "KH,2H,KS,2S,6D"
+input = "KH,QH,9H,0H,JH"
 
 hand = input.split(",")
 
@@ -43,8 +44,16 @@ def has_two_pair(values_dict: dict) -> bool:
     else:
         return False
 
+def has_straight(hand) -> bool:
+    ranks = [card_ranking.find(c[0]) for c in hand]
+    ranks.sort()
+    sorted_vals = [card_ranking[i] for i in ranks]
+    return "".join(sorted_vals) in card_ranking
+
+
 hand_values = extract_hand_values(hand)
 print(hand_values)
+print(has_straight(hand))
 print (has_four_of_a_kind(hand_values))
 print (has_full_house(hand_values))
 print (has_three_of_a_kind(hand_values))
