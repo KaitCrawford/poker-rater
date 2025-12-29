@@ -50,9 +50,18 @@ def has_straight(hand) -> bool:
     sorted_vals = [card_ranking[i] for i in ranks]
     return "".join(sorted_vals) in card_ranking
 
+def has_flush(hand) -> bool:
+    suits = [c[1] for c in hand]
+    return suits.count(suits[0]) == 5
+
+def has_straight_flush(hand) -> bool:
+    return has_flush(hand) and has_straight(hand)
+
 
 hand_values = extract_hand_values(hand)
 print(hand_values)
+print(has_straight_flush(hand))
+print(has_flush(hand))
 print(has_straight(hand))
 print (has_four_of_a_kind(hand_values))
 print (has_full_house(hand_values))
