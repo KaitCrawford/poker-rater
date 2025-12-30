@@ -1,11 +1,3 @@
-# input = "KH,2H,KS,2S,6D"
-input = "KH,QH,AH,0H,JH"
-
-hand = input.split(",")
-
-card_ranking = "234567890JQKA"  # Note that 10 is represented by '0'
-
-
 def extract_hand_info(hand: list) -> dict:
     """
     This function will probably be refactored as multiple attr functions on the Hand class
@@ -67,18 +59,31 @@ def has_royal_flush(hand_info) -> bool:
         hand_info["values"][-1] == "A"
     )
 
+def high_card(values) -> str:
+    return values[-1]
 
-hand_info = extract_hand_info(hand)
-print(hand_info)
-print(has_royal_flush(hand_info))
-print(has_straight_flush(hand_info))
-print(has_flush(hand_info["suits"]))
-print(has_straight(hand_info["values"]))
-print(has_four_of_a_kind(hand_info["val_counts"]))
-print(has_full_house(hand_info["val_counts"]))
-print(has_three_of_a_kind(hand_info["val_counts"]))
-print(has_two_pair(hand_info["val_counts"]))
-print(has_pair(hand_info["val_counts"]))
+
+if __name__ == "__main__":
+    # input = "KH,2H,KS,2S,6D"
+    input = "KH,QH,AH,0H,JH"
+
+    hand = input.split(",")
+
+    card_ranking = "234567890JQKA"  # Note that 10 is represented by '0'
+
+    hand_info = extract_hand_info(hand)
+    print(hand_info)
+    print(has_royal_flush(hand_info))
+    print(has_straight_flush(hand_info))
+    print(has_flush(hand_info["suits"]))
+    print(has_straight(hand_info["values"]))
+    print(has_four_of_a_kind(hand_info["val_counts"]))
+    print(has_full_house(hand_info["val_counts"]))
+    print(has_three_of_a_kind(hand_info["val_counts"]))
+    print(has_two_pair(hand_info["val_counts"]))
+    print(has_pair(hand_info["val_counts"]))
+    print(high_card(hand_info["values"]))
+
 
 
 """
