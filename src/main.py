@@ -1,3 +1,7 @@
+
+card_ranking = "234567890JQKA"  # Note that 10 is represented by '0'
+
+
 def extract_hand_info(hand: list) -> dict:
     """
     This function will probably be refactored as multiple attr functions on the Hand class
@@ -68,8 +72,6 @@ if __name__ == "__main__":
     input = "KH,QH,AH,0H,JH"
 
     hand = input.split(",")
-
-    card_ranking = "234567890JQKA"  # Note that 10 is represented by '0'
 
     hand_info = extract_hand_info(hand)
     print(hand_info)
