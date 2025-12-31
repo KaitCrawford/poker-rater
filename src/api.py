@@ -1,19 +1,24 @@
 from typing import Annotated
 
 from fastapi import FastAPI, Query
+from pydantic import BaseModel
 
 from .main import *
+
+
+class Hand(BaseModel):
+    cards: list[str] = []
+
 
 app = FastAPI()
 
 
 @app.get("/")
-async def get_hand_rating(cards: Annotated[list[str] | None, Query(alias="card")] = None) -> dict:
-    if not cards:
+async def get_hand_rating(hand: Annotated[Hand, Query()] = None) -> dict:
+    if not hand or not hand.cards:
         return {"msg": "Welcome"}
 
-    hand = cards
-    hand_info = extract_hand_info(hand)
+    hand_info = extract_hand_info(hand.cards)
 
     if has_royal_flush(hand_info):
         return {"msg": "Royal Flush"}
