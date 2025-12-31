@@ -15,6 +15,8 @@ async def get_hand_rating(cards: Annotated[list[str] | None, Query(alias="card")
     hand = cards
     hand_info = extract_hand_info(hand)
 
+    if has_royal_flush(hand_info):
+        return {"msg": "Royal Flush"}
     if has_straight_flush(hand_info):
         return {"msg": "Straight Flush"}
     if has_four_of_a_kind(hand_info["val_counts"]):
