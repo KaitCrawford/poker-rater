@@ -18,3 +18,8 @@ def test_home_with_pair_hand():
     response = client.get("/?card=4H&card=4D&card=JD&card=3H&card=QH")
     assert response.status_code == 200
     assert response.json() == {"msg": "Pair"}
+
+def test_home_with_two_pair_hand():
+    response = client.get("/?card=4H&card=4D&card=JD&card=JH&card=QH")
+    assert response.status_code == 200
+    assert response.json() == {"msg": "Two Pair"}
