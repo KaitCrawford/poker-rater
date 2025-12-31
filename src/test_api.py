@@ -28,3 +28,8 @@ def test_home_with_three_of_kind_hand():
     response = client.get("/?card=4H&card=4D&card=4C&card=JH&card=QH")
     assert response.status_code == 200
     assert response.json() == {"msg": "Three of a kind"}
+
+def test_home_with_straight_hand():
+    response = client.get("/?card=4H&card=5D&card=6C&card=7H&card=8H")
+    assert response.status_code == 200
+    assert response.json() == {"msg": "Straight"}
