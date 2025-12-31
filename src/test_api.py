@@ -33,3 +33,8 @@ def test_home_with_straight_hand():
     response = client.get("/?card=4H&card=5D&card=6C&card=7H&card=8H")
     assert response.status_code == 200
     assert response.json() == {"msg": "Straight"}
+
+def test_home_with_flush_hand():
+    response = client.get("/?card=4H&card=5H&card=QH&card=AH&card=8H")
+    assert response.status_code == 200
+    assert response.json() == {"msg": "Flush"}
