@@ -13,3 +13,8 @@ def test_home_with_high_card_hand():
     response = client.get("/?card=4H&card=6H&card=JD&card=3H&card=QH")
     assert response.status_code == 200
     assert response.json() == {"msg": "High Card: Q"}
+
+def test_home_with_pair_hand():
+    response = client.get("/?card=4H&card=4D&card=JD&card=3H&card=QH")
+    assert response.status_code == 200
+    assert response.json() == {"msg": "Pair"}

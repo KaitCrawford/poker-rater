@@ -15,4 +15,6 @@ async def get_hand_rating(cards: Annotated[list[str] | None, Query(alias="card")
     hand = cards
     hand_info = extract_hand_info(hand)
 
+    if has_pair(hand_info["val_counts"]):
+        return {"msg": "Pair"}
     return {"msg": f'High Card: {high_card(hand_info["values"])}'}
