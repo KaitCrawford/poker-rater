@@ -3,7 +3,8 @@ from typing import Annotated
 from fastapi import FastAPI, Query
 from pydantic import BaseModel, computed_field
 
-from .main import *
+
+CARD_RANKING = "234567890JQKA"  # Note that 10 is represented by '0'
 
 
 class Hand(BaseModel):
@@ -12,9 +13,9 @@ class Hand(BaseModel):
     @computed_field
     @property
     def values(self) -> list:
-        ranks = [card_ranking.find(c[0]) for c in self.cards]
+        ranks = [CARD_RANKING.find(c[0]) for c in self.cards]
         ranks.sort()
-        return [card_ranking[i] for i in ranks]
+        return [CARD_RANKING[i] for i in ranks]
 
     @computed_field
     @property
@@ -26,7 +27,7 @@ class Hand(BaseModel):
     def value_counts(self) -> dict:
         values = [c[0] for c in self.cards]
         # This uses the card ranking as the key so we can use it for easy ordering
-        return {card_ranking.find(v): values.count(v) for v in values}
+        return {CARD_RANKING.find(v): values.count(v) for v in values}
 
     def high_card(self) -> str:
         return self.values[-1]
@@ -50,7 +51,7 @@ class Hand(BaseModel):
             return False
 
     def has_straight(self) -> bool:
-        return "".join(self.values) in card_ranking
+        return "".join(self.values) in CARD_RANKING
 
     def has_flush(self) -> bool:
         return self.suits.count(self.suits[0]) == 5
@@ -105,3 +106,9 @@ async def get_hand_rating(hand: Annotated[Hand, Query()] = None) -> dict:
     if hand.has_pair():
         return {"msg": "Pair"}
     return {"msg": f'High Card: {hand.high_card()}'}
+
+
+"""
+Assumptions/Notes:
+- Only assessing ranking for High games, not low games or high-low split games
+"""
