@@ -1,6 +1,7 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import {FormControl, FormControlDirective, FormGroup, ReactiveFormsModule} from '@angular/forms';
 import { PokerHandRanking } from '../poker-hand-ranking';
+import { RankingResult } from '../ranking-result';
 
 @Component({
   selector: 'app-home',
@@ -9,7 +10,9 @@ import { PokerHandRanking } from '../poker-hand-ranking';
   styleUrl: './home.css',
 })
 export class Home {
+  private readonly changeDetectorRef = inject(ChangeDetectorRef);
   rankingService = inject(PokerHandRanking);
+  rankingResult: RankingResult | undefined;
 
   pokerHandForm = new FormGroup({
     firstCard: new FormControl(''),
@@ -28,6 +31,9 @@ export class Home {
       this.pokerHandForm.value.fifthCard ?? ''
     ];
 
-    this.rankingService.submitHand(cards)
+    this.rankingService.submitHand(cards).then((rankingResult) => {
+      this.rankingResult = rankingResult;
+      this.changeDetectorRef.markForCheck();
+    })
   };
 }
