@@ -1,6 +1,7 @@
 from typing import Annotated
 
 from fastapi import FastAPI, Query
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, computed_field
 
 
@@ -81,6 +82,21 @@ class Hand(BaseModel):
 
 app = FastAPI()
 
+origins = [
+    "http://localhost",
+    "http://localhost:8080",
+    "http://localhost:8000",
+    "http://localhost:4200",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 @app.get("/")
 async def get_hand_rating(hand: Annotated[Hand, Query()] = None) -> dict:
@@ -117,6 +133,5 @@ TODO:
 -- Ideally this would involve making a Card class
 - Support for 5 high straight
 - Support for aces low rules
-- Cors middleware
 - run linting tools
 """
