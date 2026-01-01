@@ -54,7 +54,7 @@ def test_home_with_straight_flush_hand():
     assert response.status_code == 200
     assert response.json() == {"msg": "Straight Flush"}
 
-def test_home_with_straight_flush_hand():
+def test_home_with_royal_flush_hand():
     response = client.get("/?cards=KH&cards=0H&cards=JH&cards=AH&cards=QH")
     assert response.status_code == 200
     assert response.json() == {"msg": "Royal Flush"}
