@@ -111,4 +111,12 @@ async def get_hand_rating(hand: Annotated[Hand, Query()] = None) -> dict:
 """
 Assumptions/Notes:
 - Only assessing ranking for High games, not low games or high-low split games
+
+TODO:
+- Validation!!!! (and tests)
+-- Ideally this would involve making a Card class
+- Support for 5 high straight
+- Support for aces low rules
+- Cors middleware
+- run linting tools
 """
