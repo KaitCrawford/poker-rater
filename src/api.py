@@ -1,13 +1,81 @@
 from typing import Annotated
 
 from fastapi import FastAPI, Query
-from pydantic import BaseModel
+from pydantic import BaseModel, computed_field
 
 from .main import *
 
 
 class Hand(BaseModel):
     cards: list[str] = []
+
+    @computed_field
+    @property
+    def values(self) -> list:
+        ranks = [card_ranking.find(c[0]) for c in self.cards]
+        ranks.sort()
+        return [card_ranking[i] for i in ranks]
+
+    @computed_field
+    @property
+    def suits(self) -> list:
+        return [c[1] for c in self.cards]
+
+    @computed_field
+    @property
+    def value_counts(self) -> dict:
+        values = [c[0] for c in self.cards]
+        # This uses the card ranking as the key so we can use it for easy ordering
+        return {card_ranking.find(v): values.count(v) for v in values}
+
+    def high_card(self) -> str:
+        return self.values[-1]
+
+    def has_pair(self) -> bool:
+        if 2 in self.value_counts.values():
+            return True
+        else:
+            return False
+
+    def has_two_pair(self) -> bool:
+        if sum(1 for v in self.value_counts.values() if v==2) ==2:
+            return True
+        else:
+            return False
+
+    def has_three_of_a_kind(self) -> bool:
+        if 3 in self.value_counts.values():
+            return True
+        else:
+            return False
+
+    def has_straight(self) -> bool:
+        return "".join(self.values) in card_ranking
+
+    def has_flush(self) -> bool:
+        return self.suits.count(self.suits[0]) == 5
+
+    def has_full_house(self) -> bool:
+        if self.has_three_of_a_kind() and self.has_pair():
+            return True
+        else:
+            return False
+
+    def has_four_of_a_kind(self) -> bool:
+        if 4 in self.value_counts.values():
+            return True
+        else:
+            return False
+
+    def has_straight_flush(self) -> bool:
+        return self.has_flush() and self.has_straight()
+
+    def has_royal_flush(self) -> bool:
+        return (
+            self.has_flush() and
+            self.has_straight() and
+            self.values[-1] == "A"
+        )
 
 
 app = FastAPI()
@@ -18,24 +86,22 @@ async def get_hand_rating(hand: Annotated[Hand, Query()] = None) -> dict:
     if not hand or not hand.cards:
         return {"msg": "Welcome"}
 
-    hand_info = extract_hand_info(hand.cards)
-
-    if has_royal_flush(hand_info):
+    if hand.has_royal_flush():
         return {"msg": "Royal Flush"}
-    if has_straight_flush(hand_info):
+    if hand.has_straight_flush():
         return {"msg": "Straight Flush"}
-    if has_four_of_a_kind(hand_info["val_counts"]):
+    if hand.has_four_of_a_kind():
         return {"msg": "Four of a kind"}
-    if has_full_house(hand_info["val_counts"]):
+    if hand.has_full_house():
         return {"msg": "Full House"}
-    if has_flush(hand_info["suits"]):
+    if hand.has_flush():
         return {"msg": "Flush"}
-    if has_straight(hand_info["values"]):
+    if hand.has_straight():
         return {"msg": "Straight"}
-    if has_three_of_a_kind(hand_info["val_counts"]):
+    if hand.has_three_of_a_kind():
         return {"msg": "Three of a kind"}
-    if has_two_pair(hand_info["val_counts"]):
+    if hand.has_two_pair():
         return {"msg": "Two Pair"}
-    if has_pair(hand_info["val_counts"]):
+    if hand.has_pair():
         return {"msg": "Pair"}
-    return {"msg": f'High Card: {high_card(hand_info["values"])}'}
+    return {"msg": f'High Card: {hand.high_card()}'}
