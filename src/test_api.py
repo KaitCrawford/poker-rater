@@ -68,3 +68,8 @@ def test_home_with_less_than_5_cards():
     response = client.get("/?cards=KH&cards=0H&cards=JH&cards=AH")
     assert response.status_code == 422
     assert response.json()["detail"][0]["msg"] == "List should have at least 5 items after validation, not 4"
+
+def test_home_duplicate_cards():
+    response = client.get("/?cards=KH&cards=0H&cards=KH&cards=AH&cards=QH")
+    assert response.status_code == 422
+    assert response.json()["detail"][0]["msg"] == "Value error, Cards may not be duplicated."

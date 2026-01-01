@@ -1,15 +1,21 @@
 from typing import Annotated
+from annotated_types import Len
 
 from fastapi import FastAPI, Query
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import Field, BaseModel, computed_field
+from pydantic import AfterValidator, BaseModel, computed_field
 
 
 CARD_RANKING = "234567890JQKA"  # Note that 10 is represented by '0'
 
 
+def has_duplicates(value: list) -> list:
+    if len(set(value)) != len(value):
+        raise ValueError("Cards may not be duplicated.")
+    return value
+
 class Hand(BaseModel):
-    cards: list[str] = Field(min_length=5, max_length=5)
+    cards: Annotated[list[str], Len(min_length=5, max_length=5), AfterValidator(has_duplicates)]
 
     @computed_field
     @property
@@ -96,6 +102,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
 
 @app.get("/")
 async def get_hand_rating(hand: Annotated[Hand, Query()]) -> dict:
