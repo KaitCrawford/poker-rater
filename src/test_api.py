@@ -6,7 +6,7 @@ client = TestClient(app)
 
 def test_home_with_no_data():
     response = client.get("/")
-    assert response.status_code == 400
+    assert response.status_code == 422
     assert response.json()["detail"][0]["msg"] == "Field required"
 
 def test_home_with_high_card_hand():
@@ -61,10 +61,10 @@ def test_home_with_royal_flush_hand():
 
 def test_home_with_more_than_5_cards():
     response = client.get("/?cards=KH&cards=0H&cards=JH&cards=AH&cards=QH&cards=5H")
-    assert response.status_code == 400
+    assert response.status_code == 422
     assert response.json()["detail"][0]["msg"] == "List should have at most 5 items after validation, not 6"
 
 def test_home_with_less_than_5_cards():
     response = client.get("/?cards=KH&cards=0H&cards=JH&cards=AH")
-    assert response.status_code == 400
+    assert response.status_code == 422
     assert response.json()["detail"][0]["msg"] == "List should have at least 5 items after validation, not 4"
