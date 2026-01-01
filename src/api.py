@@ -1,7 +1,9 @@
 from typing import Annotated
 
-from fastapi import FastAPI, Query
+from fastapi import FastAPI, Query, Request, status
+from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 from pydantic import BaseModel, computed_field
 
 
@@ -9,7 +11,7 @@ CARD_RANKING = "234567890JQKA"  # Note that 10 is represented by '0'
 
 
 class Hand(BaseModel):
-    cards: list[str] = []
+    cards: list[str]
 
     @computed_field
     @property
@@ -97,12 +99,17 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Use this to return 400 status code for validation errors (FastAPI and Pydantic use 422)
+@app.exception_handler(RequestValidationError)
+async def validation_exception_handler(request: Request, e: RequestValidationError):
+    return JSONResponse(
+        status_code=status.HTTP_400_BAD_REQUEST,
+        content={"detail": e.errors()},
+    )
+
 
 @app.get("/")
-async def get_hand_rating(hand: Annotated[Hand, Query()] = None) -> dict:
-    if not hand or not hand.cards:
-        return {"msg": "Welcome"}
-
+async def get_hand_rating(hand: Annotated[Hand, Query()]) -> dict:
     if hand.has_royal_flush():
         return {"msg": "Royal Flush"}
     if hand.has_straight_flush():

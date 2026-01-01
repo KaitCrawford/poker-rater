@@ -6,8 +6,8 @@ client = TestClient(app)
 
 def test_home_with_no_data():
     response = client.get("/")
-    assert response.status_code == 200
-    assert response.json() == {"msg": "Welcome"}
+    assert response.status_code == 400
+    assert response.json()["detail"][0]["msg"] == "Field required"
 
 def test_home_with_high_card_hand():
     response = client.get("/?cards=4H&cards=6H&cards=JD&cards=3H&cards=QH")
