@@ -1,0 +1,22 @@
+label, input {
+  display: block;
+}
+.divider {
+  width: 1px;
+  background: purple;
+  margin-inline: 0.5rem;
+}
+.hand-ranking-result {
+  display: flex;
+  align-items: center;
+  gap: 0.73rem;
+  margin-top: 1.5rem;
+}
+
+.hand-ranking-result {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    flex-wrap: wrap;
+    gap: 1.25rem;
+}
