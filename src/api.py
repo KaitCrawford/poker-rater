@@ -4,14 +4,14 @@ from fastapi import FastAPI, Query, Request, status
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
-from pydantic import BaseModel, computed_field
+from pydantic import BaseModel, Field, computed_field
 
 
 CARD_RANKING = "234567890JQKA"  # Note that 10 is represented by '0'
 
 
 class Hand(BaseModel):
-    cards: list[str]
+    cards: list[str] = Field(min_length=5, max_length=5)
 
     @computed_field
     @property
