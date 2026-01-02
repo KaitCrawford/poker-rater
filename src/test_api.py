@@ -39,6 +39,11 @@ def test_home_with_5_high_straight_hand():
     assert response.status_code == 200
     assert response.json() == {"msg": "Straight"}
 
+def test_home_with_5_high_straight_flush_hand():
+    response = client.get("/?cards=4H&cards=5H&cards=3H&cards=2H&cards=AH")
+    assert response.status_code == 200
+    assert response.json() == {"msg": "Straight Flush"}
+
 def test_home_with_flush_hand():
     response = client.get("/?cards=4H&cards=5H&cards=QH&cards=AH&cards=8H")
     assert response.status_code == 200

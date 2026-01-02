@@ -119,7 +119,7 @@ class Hand(BaseModel):
         return (
             self.has_flush() and
             self.has_straight() and
-            self.values[-1] == "A"
+            self.values == ["0", "J", "Q", "K", "A"]
         )
 
 
