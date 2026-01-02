@@ -1,17 +1,23 @@
 # Poker Rater (Ranker):
 Demo application made for a tech assessment
 
-## Installation instructions:
+(API and Frontend should be installed and run in separate terminals)
+
+## API:
+### Installation instructions:
 1. Clone repo `git clone git@github.com:KaitCrawford/poker-rater.git`
 2. Create ve `python3.10 -m venv ve`
 3. Activate ve `source ve/bin/activate`
-4. Install requirements `pip install -r requirements.txt`  
-5. Ensure node.js and npm installed
-6. Navigate to frontend directory and install frontend `cd ./frontend/ && npm install`
-7. Install Angular cli `npm install -g @angular/cli`
-
-## Running instructions:
+4. Install requirements `pip install -r requirements.txt`
+### Run instructions:
 - To run api: `fastapi run src/api.py`
+
+## Frontend
+### Installation instructions:
+1. Ensure node.js and npm installed
+2. Navigate to frontend directory and install frontend `cd ./frontend/ && npm install`
+3. Install Angular cli `npm install -g @angular/cli`
+### Run instructions:
 - To run frontend: `cd ./frontend/ && ng serve`
 
 ## API endpoint:
