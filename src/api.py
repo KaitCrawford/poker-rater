@@ -74,6 +74,8 @@ class Hand(BaseModel):
         return {CARD_RANKING.find(v): values.count(v) for v in values}
 
     def high_card(self) -> str:
+        if self.values[-1] == "0":
+            return 10
         return self.values[-1]
 
     def has_pair(self) -> bool:
