@@ -48,11 +48,15 @@ def format_cards(value: list[str]) -> list[dict]:
     return [{"code": c} for c in value]
 
 class Hand(BaseModel):
-    cards: Annotated[list[Card], Len(min_length=5, max_length=5), BeforeValidator(format_cards), BeforeValidator(has_duplicates)]
+    cards: Annotated[
+        list[Card], Len(min_length=5, max_length=5), BeforeValidator(format_cards),
+        BeforeValidator(has_duplicates)
+    ]
 
     @computed_field
     @property
     def values(self) -> list:
+        # Returns a list of the card values ordered by rank
         ranks = [CARD_RANKING.find(c.value) for c in self.cards]
         ranks.sort()
         return [CARD_RANKING[i] for i in ranks]
