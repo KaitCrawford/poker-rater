@@ -4,40 +4,80 @@
         <form [formGroup]="pokerHandForm" (submit)="submitPokerHand()">
             <div>
                 <label for="first-card">First Card</label>
-                <select id="first-card" formControlName="firstCard" >
-                    <option [ngValue]="null" disabled>Select a card</option>
-                    @for (card of pokerCardList; track card.value) {
-                        <option [ngValue]=card.value>{{ card.display }}</option>
-                    }
-                </select>
+                <div>
+                    <select id="first-card-value" formControlName="firstCardValue" >
+                        <option [ngValue]="null" disabled>Select a value</option>
+                        @for (card_val of pokerCardValues; track card_val.value) {
+                            <option [ngValue]=card_val.value>{{ card_val.display }}</option>
+                        }
+                    </select>
+                    <select id="first-card-suit" formControlName="firstCardSuit" >
+                        <option [ngValue]="null" disabled>Select a suit</option>
+                        @for (suit of pokerCardSuits; track $index) {
+                            <option [ngValue]=suit[0]>{{ suit }}</option>
+                        }
+                    </select>
+                </div>
                 <label for="second-card">Second Card</label>
-                <select id="second-card" formControlName="secondCard" >
-                    <option [ngValue]="null" disabled>Select a card</option>
-                    @for (card of pokerCardList; track card.value) {
-                        <option [ngValue]=card.value>{{ card.display }}</option>
-                    }
-                </select>
+                <div>
+                    <select id="second-card-value" formControlName="secondCardValue" >
+                        <option [ngValue]="null" disabled>Select a value</option>
+                        @for (card_val of pokerCardValues; track card_val.value) {
+                            <option [ngValue]=card_val.value>{{ card_val.display }}</option>
+                        }
+                    </select>
+                    <select id="second-card-suit" formControlName="secondCardSuit" >
+                        <option [ngValue]="null" disabled>Select a suit</option>
+                        @for (suit of pokerCardSuits; track $index) {
+                            <option [ngValue]=suit[0]>{{ suit }}</option>
+                        }
+                    </select>
+                </div>
                 <label for="third-card">Third Card</label>
-                <select id="third-card" formControlName="thirdCard" >
-                    <option [ngValue]="null" disabled>Select a card</option>
-                    @for (card of pokerCardList; track card.value) {
-                        <option [ngValue]=card.value>{{ card.display }}</option>
-                    }
-                </select>
+                <div>
+                    <select id="third-card-value" formControlName="thirdCardValue" >
+                        <option [ngValue]="null" disabled>Select a value</option>
+                        @for (card_val of pokerCardValues; track card_val.value) {
+                            <option [ngValue]=card_val.value>{{ card_val.display }}</option>
+                        }
+                    </select>
+                    <select id="third-card-suit" formControlName="thirdCardSuit" >
+                        <option [ngValue]="null" disabled>Select a suit</option>
+                        @for (suit of pokerCardSuits; track $index) {
+                            <option [ngValue]=suit[0]>{{ suit }}</option>
+                        }
+                    </select>
+                </div>
                 <label for="fourth-card">Fourth Card</label>
-                <select id="fourth-card" formControlName="fourthCard" >
-                    <option [ngValue]="null" disabled>Select a card</option>
-                    @for (card of pokerCardList; track card.value) {
-                        <option [ngValue]=card.value>{{ card.display }}</option>
-                    }
-                </select>
+                <div>
+                    <select id="fourth-card-value" formControlName="fourthCardValue" >
+                        <option [ngValue]="null" disabled>Select a value</option>
+                        @for (card_val of pokerCardValues; track card_val.value) {
+                            <option [ngValue]=card_val.value>{{ card_val.display }}</option>
+                        }
+                    </select>
+                    <select id="fourth-card-suit" formControlName="fourthCardSuit" >
+                        <option [ngValue]="null" disabled>Select a suit</option>
+                        @for (suit of pokerCardSuits; track $index) {
+                            <option [ngValue]=suit[0]>{{ suit }}</option>
+                        }
+                    </select>
+                </div>
                 <label for="fifth-card">Fifth Card</label>
-                <select id="fifth-card" formControlName="fifthCard" >
-                    <option [ngValue]="null" disabled>Select a card</option>
-                    @for (card of pokerCardList; track card.value) {
-                        <option [ngValue]=card.value>{{ card.display }}</option>
-                    }
-                </select>
+                <div>
+                    <select id="fifth-card-value" formControlName="fifthCardValue" >
+                        <option [ngValue]="null" disabled>Select a value</option>
+                        @for (card_val of pokerCardValues; track card_val.value) {
+                            <option [ngValue]=card_val.value>{{ card_val.display }}</option>
+                        }
+                    </select>
+                    <select id="fifth-card-suit" formControlName="fifthCardSuit" >
+                        <option [ngValue]="null" disabled>Select a suit</option>
+                        @for (suit of pokerCardSuits; track $index) {
+                            <option [ngValue]=suit[0]>{{ suit }}</option>
+                        }
+                    </select>
+                </div>
             </div>
             <br/>
             <button type="submit" class="primary">Submit</button>

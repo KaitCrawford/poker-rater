@@ -1,4 +1,4 @@
-export interface Card {
+export interface CardValue {
     display: string;
     value: string;
 }
