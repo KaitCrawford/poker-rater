@@ -22,6 +22,7 @@ def validate_card(value: str) -> str:
         raise ValueError(f"Invalid Card: {value} (unrecognised suit)")
     return value
 
+
 class Card(BaseModel):
     code: Annotated[str, BeforeValidator(validate_card)]
 
@@ -41,16 +42,20 @@ def has_duplicates(value: list) -> list:
         raise ValueError("Cards may not be duplicated.")
     return value
 
+
 def format_cards(value: list[str]) -> list[dict]:
     # Note: This transformation of the data is necessary for the Card instances to be
     # created. It might have been better to do this all as POST requests and send the
     # cards as json dicts
     return [{"code": c} for c in value]
 
+
 class Hand(BaseModel):
     cards: Annotated[
-        list[Card], Len(min_length=5, max_length=5), BeforeValidator(format_cards),
-        BeforeValidator(has_duplicates)
+        list[Card],
+        Len(min_length=5, max_length=5),
+        BeforeValidator(format_cards),
+        BeforeValidator(has_duplicates),
     ]
 
     @computed_field
@@ -85,7 +90,7 @@ class Hand(BaseModel):
             return False
 
     def has_two_pair(self) -> bool:
-        if sum(1 for v in self.value_counts.values() if v==2) ==2:
+        if sum(1 for v in self.value_counts.values() if v == 2) == 2:
             return True
         else:
             return False
@@ -98,7 +103,7 @@ class Hand(BaseModel):
 
     def has_straight(self) -> bool:
         hand_vals = "".join(self.values)
-        if hand_vals in f'{CARD_RANKING[0:4]}A':
+        if hand_vals in f"{CARD_RANKING[0:4]}A":
             # Support for 5 high straight (hand_vals would be 2345A)
             return True
         return hand_vals in CARD_RANKING
@@ -123,9 +128,9 @@ class Hand(BaseModel):
 
     def has_royal_flush(self) -> bool:
         return (
-            self.has_flush() and
-            self.has_straight() and
-            self.values == ["0", "J", "Q", "K", "A"]
+            self.has_flush()
+            and self.has_straight()
+            and self.values == ["0", "J", "Q", "K", "A"]
         )
 
 
@@ -167,7 +172,7 @@ async def get_hand_rating(hand: Annotated[Hand, Query()]) -> dict:
         return {"msg": "Two Pair"}
     if hand.has_pair():
         return {"msg": "Pair"}
-    return {"msg": f'High Card: {hand.high_card()}'}
+    return {"msg": f"High Card: {hand.high_card()}"}
 
 
 """
