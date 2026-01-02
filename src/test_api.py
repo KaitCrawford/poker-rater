@@ -73,3 +73,23 @@ def test_home_duplicate_cards():
     response = client.get("/?cards=KH&cards=0H&cards=KH&cards=AH&cards=QH")
     assert response.status_code == 422
     assert response.json()["detail"][0]["msg"] == "Value error, Cards may not be duplicated."
+
+def test_card_code_too_long():
+    response = client.get("/?cards=KHD&cards=0H&cards=KH&cards=AH&cards=QH")
+    assert response.status_code == 422
+    assert response.json()["detail"][0]["msg"] == "Value error, Invalid Card: KHD (unrecognised card)"
+
+def test_card_code_too_short():
+    response = client.get("/?cards=K&cards=0H&cards=KH&cards=AH&cards=QH")
+    assert response.status_code == 422
+    assert response.json()["detail"][0]["msg"] == "Value error, Invalid Card: K (unrecognised card)"
+
+def test_card_invalid_value():
+    response = client.get("/?cards=1H&cards=0H&cards=KH&cards=AH&cards=QH")
+    assert response.status_code == 422
+    assert response.json()["detail"][0]["msg"] == "Value error, Invalid Card: 1H (unrecognised value)"
+
+def test_card_invalid_suit():
+    response = client.get("/?cards=AG&cards=0H&cards=KH&cards=AH&cards=QH")
+    assert response.status_code == 422
+    assert response.json()["detail"][0]["msg"] == "Value error, Invalid Card: AG (unrecognised suit)"

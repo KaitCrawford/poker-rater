@@ -7,10 +7,23 @@ from pydantic import BaseModel, BeforeValidator, computed_field
 
 
 CARD_RANKING = "234567890JQKA"  # Note that 10 is represented by '0'
+VALID_SUITS = "HDCS"
 
+
+def validate_card(value: str) -> str:
+    """
+    Valid cards are represented by a 2 character code: value and suit
+    """
+    if len(value) != 2:
+        raise ValueError(f"Invalid Card: {value} (unrecognised card)")
+    if value[0] not in CARD_RANKING:
+        raise ValueError(f"Invalid Card: {value} (unrecognised value)")
+    if value[1] not in VALID_SUITS:
+        raise ValueError(f"Invalid Card: {value} (unrecognised suit)")
+    return value
 
 class Card(BaseModel):
-    code: str
+    code: Annotated[str, BeforeValidator(validate_card)]
 
     @computed_field
     @property
@@ -29,6 +42,9 @@ def has_duplicates(value: list) -> list:
     return value
 
 def format_cards(value: list[str]) -> list[dict]:
+    # Note: This transformation of the data is necessary for the Card instances to be
+    # created. It might have been better to do this all as POST requests and send the
+    # cards as json dicts
     return [{"code": c} for c in value]
 
 class Hand(BaseModel):
@@ -149,8 +165,6 @@ Assumptions/Notes:
 - Only assessing ranking for High games, not low games or high-low split games
 
 TODO:
-- Validation!!!! (and tests)
--- Ideally this would involve making a Card class
 - Support for 5 high straight
 - Support for aces low rules
 - run linting tools
