@@ -1,10 +1,9 @@
 from typing import Annotated
-from annotated_types import Len
 
+from annotated_types import Len
 from fastapi import FastAPI, Query
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, BeforeValidator, computed_field
-
 
 CARD_RANKING = "234567890JQKA"  # Note that 10 is represented by '0'
 VALID_SUITS = "HDCS"
