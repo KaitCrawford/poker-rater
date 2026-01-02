@@ -1,17 +1,45 @@
 <div class="left-side">
     <section class="hand-ranking-form">
-        <h2 class="section-heading">What cards make up the Poker hand?</h2>
+        <h2 class="section-heading">What cards make up your Poker hand?</h2>
         <form [formGroup]="pokerHandForm" (submit)="submitPokerHand()">
-            <label for="first-card">First Card</label>
-            <input id="first-card" type="text" formControlName="firstCard" />
-            <label for="second-card">Second Card</label>
-            <input id="second-card" type="text" formControlName="secondCard" />
-            <label for="third-card">Third Card</label>
-            <input id="third-card" type="text" formControlName="thirdCard" />
-            <label for="fourth-card">Fourth Card</label>
-            <input id="fourth-card" type="text" formControlName="fourthCard" />
-            <label for="fifth-card">Fifth Card</label>
-            <input id="fifth-card" type="text" formControlName="fifthCard" />
+            <div>
+                <label for="first-card">First Card</label>
+                <select id="first-card" formControlName="firstCard" >
+                    <option [ngValue]="null" disabled>Select a card</option>
+                    @for (card of pokerCardList; track card.value) {
+                        <option [ngValue]=card.value>{{ card.display }}</option>
+                    }
+                </select>
+                <label for="second-card">Second Card</label>
+                <select id="second-card" formControlName="secondCard" >
+                    <option [ngValue]="null" disabled>Select a card</option>
+                    @for (card of pokerCardList; track card.value) {
+                        <option [ngValue]=card.value>{{ card.display }}</option>
+                    }
+                </select>
+                <label for="third-card">Third Card</label>
+                <select id="third-card" formControlName="thirdCard" >
+                    <option [ngValue]="null" disabled>Select a card</option>
+                    @for (card of pokerCardList; track card.value) {
+                        <option [ngValue]=card.value>{{ card.display }}</option>
+                    }
+                </select>
+                <label for="fourth-card">Fourth Card</label>
+                <select id="fourth-card" formControlName="fourthCard" >
+                    <option [ngValue]="null" disabled>Select a card</option>
+                    @for (card of pokerCardList; track card.value) {
+                        <option [ngValue]=card.value>{{ card.display }}</option>
+                    }
+                </select>
+                <label for="fifth-card">Fifth Card</label>
+                <select id="fifth-card" formControlName="fifthCard" >
+                    <option [ngValue]="null" disabled>Select a card</option>
+                    @for (card of pokerCardList; track card.value) {
+                        <option [ngValue]=card.value>{{ card.display }}</option>
+                    }
+                </select>
+            </div>
+            <br/>
             <button type="submit" class="primary">Submit</button>
         </form>
     </section>
