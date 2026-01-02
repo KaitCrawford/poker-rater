@@ -5,10 +5,10 @@ Demo application made for a tech assessment
 1. Clone repo `git clone git@github.com:KaitCrawford/poker-rater.git`
 2. Create ve `python3.10 -m venv ve`
 3. Activate ve `source ve/bin/activate`
-4. Install requirements `pip install -r requirements.txt`
-(Ensure node.js and npm installed)
-5. Navigate to frontend directory and install frontend `cd ./frontend/ && npm install`
-6. Install Angular cli `npm install -g @angular/cli`
+4. Install requirements `pip install -r requirements.txt`  
+5. Ensure node.js and npm installed
+6. Navigate to frontend directory and install frontend `cd ./frontend/ && npm install`
+7. Install Angular cli `npm install -g @angular/cli`
 
 ## Running instructions:
 - To run api: `fastapi run src/api.py`
