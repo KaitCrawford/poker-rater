@@ -43,7 +43,7 @@ def has_duplicates(value: list) -> list:
 
 
 def format_cards(value: list[str]) -> list[dict]:
-    # Note: This transformation of the data is necessary for the Card instances to be
+    # NOTE: This transformation of the data is necessary for the Card instances to be
     # created. It might have been better to do this all as POST requests and send the
     # cards as json dicts
     return [{"code": c} for c in value]
@@ -180,5 +180,4 @@ Assumptions/Notes:
 
 TODO:
 - Support for aces low rules
-- run linting tools
 """

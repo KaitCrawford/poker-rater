@@ -6,8 +6,9 @@ Demo application made for a tech assessment
 2. Create ve `python3.10 -m venv ve`
 3. Activate ve `source ve/bin/activate`
 4. Install requirements `pip install -r requirements.txt`
-5. Install frontend `cd ./frontend/ && npm install`
-5. Install Angular cli `cd ./frontend/ && npm install -g @angular/cli`
+(Ensure node.js and npm installed)
+5. Navigate to frontend directory and install frontend `cd ./frontend/ && npm install`
+6. Install Angular cli `npm install -g @angular/cli`
 
 ## Running instructions:
 - To run api: `fastapi run src/api.py`
@@ -24,6 +25,7 @@ Demo application made for a tech assessment
 - Example: {"msg": "High Card: A}
 
 ## Notes:
+- The output needs work, it's generally not very user friendly (card details aren't displayed on success and error messages not user friendly)
 - More notes can be found in comments starting with "NOTE"
 
 ## Test instructions:
