@@ -91,7 +91,11 @@ class Hand(BaseModel):
             return False
 
     def has_straight(self) -> bool:
-        return "".join(self.values) in CARD_RANKING
+        hand_vals = "".join(self.values)
+        if hand_vals in f'{CARD_RANKING[0:4]}A':
+            # Support for 5 high straight (hand_vals would be 2345A)
+            return True
+        return hand_vals in CARD_RANKING
 
     def has_flush(self) -> bool:
         return self.suits.count(self.suits[0]) == 5
@@ -165,7 +169,6 @@ Assumptions/Notes:
 - Only assessing ranking for High games, not low games or high-low split games
 
 TODO:
-- Support for 5 high straight
 - Support for aces low rules
 - run linting tools
 """
