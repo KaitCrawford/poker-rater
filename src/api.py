@@ -3,10 +3,24 @@ from annotated_types import Len
 
 from fastapi import FastAPI, Query
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import AfterValidator, BaseModel, computed_field
+from pydantic import BaseModel, BeforeValidator, computed_field
 
 
 CARD_RANKING = "234567890JQKA"  # Note that 10 is represented by '0'
+
+
+class Card(BaseModel):
+    code: str
+
+    @computed_field
+    @property
+    def value(self) -> str:
+        return self.code[0]
+
+    @computed_field
+    @property
+    def suit(self) -> str:
+        return self.code[1]
 
 
 def has_duplicates(value: list) -> list:
@@ -14,25 +28,28 @@ def has_duplicates(value: list) -> list:
         raise ValueError("Cards may not be duplicated.")
     return value
 
+def format_cards(value: list[str]) -> list[dict]:
+    return [{"code": c} for c in value]
+
 class Hand(BaseModel):
-    cards: Annotated[list[str], Len(min_length=5, max_length=5), AfterValidator(has_duplicates)]
+    cards: Annotated[list[Card], Len(min_length=5, max_length=5), BeforeValidator(format_cards), BeforeValidator(has_duplicates)]
 
     @computed_field
     @property
     def values(self) -> list:
-        ranks = [CARD_RANKING.find(c[0]) for c in self.cards]
+        ranks = [CARD_RANKING.find(c.value) for c in self.cards]
         ranks.sort()
         return [CARD_RANKING[i] for i in ranks]
 
     @computed_field
     @property
     def suits(self) -> list:
-        return [c[1] for c in self.cards]
+        return [c.suit for c in self.cards]
 
     @computed_field
     @property
     def value_counts(self) -> dict:
-        values = [c[0] for c in self.cards]
+        values = [c.value for c in self.cards]
         # This uses the card ranking as the key so we can use it for easy ordering
         return {CARD_RANKING.find(v): values.count(v) for v in values}
 
